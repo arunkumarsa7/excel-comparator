@@ -21,18 +21,18 @@ public class CompareXSSFWorkbookHelperTest {
 	public static void main(final String[] args) {
 		setup();
 		try {
-			final Map<String, String> firstFile = ExcelReader
-					.covertSheetContentToMap(ExcelReader.readExcelFile(fileLocation, firstFileName), sheetNumber);
-			final Map<String, String> secondFile = ExcelReader
-					.covertSheetContentToMap(ExcelReader.readExcelFile(fileLocation, secondFileName), sheetNumber);
-			final Map<String, String> differenceMap = CompareXSSFWorkbookHelper.compareXSSFWorkbooks(firstFile,
-					secondFile);
+			final Map<String, Map<String, String>> firstFile = ExcelReader.covertSheetContentToMap(
+					ExcelReader.readExcelFile(fileLocation, firstFileName).getSheetAt(sheetNumber));
+			final Map<String, Map<String, String>> secondFile = ExcelReader.covertSheetContentToMap(
+					ExcelReader.readExcelFile(fileLocation, secondFileName).getSheetAt(sheetNumber));
+			final Map<String, Map<String, String>> differenceMap = CompareXSSFWorkbookHelper
+					.compareXSSFWorkbookSheets(firstFile, secondFile);
 			if (differenceMap.isEmpty()) {
 				System.out.println("Both files are equal");
 			} else {
 				System.out.println("Both file are different");
 				System.out.println("Differences are:");
-				for (final Map.Entry<String, String> entry : differenceMap.entrySet()) {
+				for (final Map.Entry<String, Map<String, String>> entry : differenceMap.entrySet()) {
 					System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 				}
 			}

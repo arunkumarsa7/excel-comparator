@@ -1,13 +1,15 @@
 package tools.dev.excel_comparator;
 
+import tools.dev.excel_comparator.utils.ExcelWriter;
+
 /**
- * Hello world!
+ *
+ * @author Arun Kumar S A
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+public class App {
+	public static void main(final String[] args) {
+		final ExcelWriter excelWriter = new ExcelWriter();
+		excelWriter.createWorkBook();
+	}
 }
