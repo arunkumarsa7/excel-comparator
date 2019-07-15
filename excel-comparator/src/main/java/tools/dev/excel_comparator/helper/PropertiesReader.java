@@ -68,31 +68,38 @@ public class PropertiesReader {
 	}
 
 	public static int getFirstKeyColumnIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.reader.firt.key.column.index");
+		return Integer.parseInt(
+				ConfigReader.getSystemConfiguration().getString("excel-comparator.reader.firt.key.column.index"));
 	}
 
 	public static int getSecondKeyColumnIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.reader.second.key.column.index");
+		return Integer.parseInt(
+				ConfigReader.getSystemConfiguration().getString("excel-comparator.reader.second.key.column.index"));
 	}
 
 	public static int getValueColumnIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.reader.value.column.index");
+		return Integer.parseInt(
+				ConfigReader.getSystemConfiguration().getString("excel-comparator.reader.value.column.index"));
 	}
 
 	public static int getStyleSheetIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.style.reader.style.sheet.index");
+		return Integer.parseInt(
+				ConfigReader.getSystemConfiguration().getString("excel-comparator.style.reader.style.sheet.index"));
 	}
 
 	public static int getSummarySheetIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.style.reader.summary.sheet.index");
+		return Integer.parseInt(
+				ConfigReader.getSystemConfiguration().getString("excel-comparator.style.reader.summary.sheet.index"));
 	}
 
 	public static int getHeaderRowIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.style.reader.header.row.index");
+		return Integer.parseInt(
+				ConfigReader.getSystemConfiguration().getString("excel-comparator.style.reader.header.row.index"));
 	}
 
 	public static int getFirstHeaderCellIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.style.reader.first.header.cell.index");
+		return Integer.parseInt(ConfigReader.getSystemConfiguration()
+				.getString("excel-comparator.style.reader.first.header.cell.index"));
 	}
 
 	public static List<String> getReportRowHeaders() {
@@ -116,21 +123,23 @@ public class PropertiesReader {
 	}
 
 	public static int getReportRowHeaderStartIndex() {
-		return ConfigReader.getSystemConfiguration()
-				.getInt("excel-comparator.style.writer.report.row.header.start.index");
+		return Integer.parseInt(ConfigReader.getSystemConfiguration()
+				.getString("excel-comparator.style.writer.report.row.header.start.index"));
 	}
 
 	public static int getReportRowHeaderColStartIndex() {
-		return ConfigReader.getSystemConfiguration()
-				.getInt("excel-comparator.style.writer.report.row.header.col.start.index");
+		return Integer.parseInt(ConfigReader.getSystemConfiguration()
+				.getString("excel-comparator.style.writer.report.row.header.col.start.index"));
 	}
 
 	public static int getReportRowStartIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.style.writer.report.row.start.index");
+		return Integer.parseInt(ConfigReader.getSystemConfiguration()
+				.getString("excel-comparator.style.writer.report.row.start.index"));
 	}
 
 	public static int getReportColStartIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.style.writer.report.col.start.index");
+		return Integer.parseInt(ConfigReader.getSystemConfiguration()
+				.getString("excel-comparator.style.writer.report.col.start.index"));
 	}
 
 	public static String getSummarySheetName() {
@@ -154,20 +163,22 @@ public class PropertiesReader {
 	}
 
 	public static int getSummaryRowHeaderRowStartIndex() {
-		return ConfigReader.getSystemConfiguration()
-				.getInt("excel-comparator.summary.sheet.row.header.row.start.index");
+		return Integer.parseInt(ConfigReader.getSystemConfiguration()
+				.getString("excel-comparator.summary.sheet.row.header.row.start.index"));
 	}
 
 	public static int getSummaryRowHeaderColStartIndex() {
-		return ConfigReader.getSystemConfiguration()
-				.getInt("excel-comparator.summary.sheet.row.header.col.start.index");
+		return Integer.parseInt(ConfigReader.getSystemConfiguration()
+				.getString("excel-comparator.summary.sheet.row.header.col.start.index"));
 	}
 
 	public static int getSummaryRowStartIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.summary.sheet.row.start.index");
+		return Integer.parseInt(
+				ConfigReader.getSystemConfiguration().getString("excel-comparator.summary.sheet.row.start.index"));
 	}
 
 	public static int getSummaryColStartIndex() {
-		return ConfigReader.getSystemConfiguration().getInt("excel-comparator.summary.sheet.col.start.index");
+		return Integer.parseInt(
+				ConfigReader.getSystemConfiguration().getString("excel-comparator.summary.sheet.col.start.index"));
 	}
 }
