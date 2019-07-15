@@ -3,7 +3,6 @@ package tools.dev.excel_comparator.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,13 +13,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import tools.dev.excel_comparator.helper.PropertiesReader;
+
 public class ExcelReader {
-	static int firtKeyColumn = 0;
-	static int secondKeyColumn = 1;
-	static int valueColumn = 1;
-	static String[] skipSheetNames = { "SUMMARY", "EXEMPTED_REFERENCES" };
-	static String[] replaceAllPatterns = { "\\s+" };
-	static String[] replacePatterns = { "\\s+", "\r\n", "\n", "//$NON-NLS-1$", "//$NON-NLS-2$" };
+	static int firtKeyColumn = PropertiesReader.getFirstKeyColumnIndex();
+	static int secondKeyColumn = PropertiesReader.getSecondKeyColumnIndex();
+	static int valueColumn = PropertiesReader.getValueColumnIndex();
 
 	public static final DataFormatter formatter = new DataFormatter();
 
@@ -72,13 +70,13 @@ public class ExcelReader {
 
 	private static String formatCellValue(final String columnValue) {
 		String formattedValue = columnValue;
-		for (final String replacePattern : Arrays.asList(replaceAllPatterns)) {
+		for (final String replacePattern : PropertiesReader.getReplaceAllPatterns()) {
 			formattedValue = formattedValue.replaceAll(replacePattern, "");
 		}
-		for (final String replacePattern : Arrays.asList(replacePatterns)) {
+		for (final String replacePattern : PropertiesReader.getReplacePatterns()) {
 			formattedValue = formattedValue.replace(replacePattern, "");
 		}
-		return formattedValue;
+		return formattedValue.trim();
 	}
 
 	private static boolean isSheetEmpty(final Sheet sheet) {
@@ -93,7 +91,7 @@ public class ExcelReader {
 	}
 
 	private static boolean isSheetExempted(final String sheetName) {
-		for (final String exemptedSheetName : Arrays.asList(skipSheetNames)) {
+		for (final String exemptedSheetName : PropertiesReader.getSkipSheetNames()) {
 			if (sheetName.equalsIgnoreCase(exemptedSheetName)) {
 				return true;
 			}

@@ -9,15 +9,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import tools.dev.excel_comparator.helper.PropertiesReader;
+
 public class ExcelStyleReader {
-	static String fileLocation = "C:\\Users\\Arun Kumar S A\\Desktop";
-	static String fileName = "Attribute_References_19.0.xlsx";
 	static Sheet styleReaderSheet;
 	static Sheet summaryStyleReaderSheet;
-	static int styleSheetIndex = 1;
-	static int summarySheetIndex = 0;
-	static int headerRowIndex = 0;
-	static int firstHeaderCellIndex = 0;
+	static int styleSheetIndex = PropertiesReader.getStyleSheetIndex();
+	static int summarySheetIndex = PropertiesReader.getSummarySheetIndex();
+	static int headerRowIndex = PropertiesReader.getHeaderRowIndex();
+	static int firstHeaderCellIndex = PropertiesReader.getFirstHeaderCellIndex();
 	private static Workbook parentWorkbook;
 
 	private ExcelStyleReader() {
@@ -25,7 +25,8 @@ public class ExcelStyleReader {
 	}
 
 	public static void populateStyleReaderSheet() throws IOException {
-		try (final FileInputStream fis = new FileInputStream(new File(fileLocation + File.separator + fileName));
+		try (final FileInputStream fis = new FileInputStream(new File(PropertiesReader.getSourceFileLocation()
+				+ File.separator + PropertiesReader.getSecondSourceFileName()));
 				final Workbook workbook = new XSSFWorkbook(fis);) {
 			styleReaderSheet = workbook.getSheetAt(styleSheetIndex);
 			summaryStyleReaderSheet = workbook.getSheetAt(summarySheetIndex);

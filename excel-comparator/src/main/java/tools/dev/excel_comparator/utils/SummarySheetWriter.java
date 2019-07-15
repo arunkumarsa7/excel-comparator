@@ -1,6 +1,5 @@
 package tools.dev.excel_comparator.utils;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,22 +9,20 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-public class SummarySheetWriter {
-	private static String summarySheetName = "SUMMARY";
-	private static int rowHeaderStartIndex = 0;
-	private static int rowHeaderColStartIndex = 0;
-	private static int rowStartIndex = 1;
-	private static int colStartIndex = 0;
+import tools.dev.excel_comparator.helper.PropertiesReader;
 
-	static String[] summarySheetHeaders = { "Attribute", "Reference Count" };
-	static String totalKeyword = "Total";
+public class SummarySheetWriter {
+	private static int rowHeaderStartIndex = PropertiesReader.getSummaryRowHeaderRowStartIndex();
+	private static int rowHeaderColStartIndex = PropertiesReader.getSummaryRowHeaderColStartIndex();
+	private static int rowStartIndex = PropertiesReader.getSummaryRowStartIndex();
+	private static int colStartIndex = PropertiesReader.getSummaryColStartIndex();
 
 	private SummarySheetWriter() {
 	}
 
 	public static void createSummarySheet(final Workbook workbook,
 			final Map<String, Map<String, Map<String, String>>> newWorkbookData) {
-		final Sheet sheet = workbook.createSheet(summarySheetName);
+		final Sheet sheet = workbook.createSheet(PropertiesReader.getSummarySheetName());
 		writeSheetHeaders(sheet);
 		int totalEntries = 0;
 		for (final Entry<String, Integer> entry : getSummarySheetData(newWorkbookData).entrySet()) {
@@ -52,7 +49,7 @@ public class SummarySheetWriter {
 
 	private static void writeSheetHeaders(final Sheet sheet) {
 		final Row row = sheet.createRow(rowHeaderStartIndex);
-		for (final String rowHeader : Arrays.asList(summarySheetHeaders)) {
+		for (final String rowHeader : PropertiesReader.getSummarySheetHeaders()) {
 			final Cell cell = row.createCell(rowHeaderColStartIndex++);
 			if (rowHeaderColStartIndex == 1) {
 				cell.setCellStyle(ExcelStyleReader.getSummarySheetFirstHeaderCellStyle());
@@ -71,7 +68,7 @@ public class SummarySheetWriter {
 		colStartIndex = 0;
 		final Cell cell1 = row.createCell(colStartIndex++);
 		final Cell cell2 = row.createCell(colStartIndex++);
-		cell1.setCellValue(totalKeyword);
+		cell1.setCellValue(PropertiesReader.getSummarySheetTotalKeyword());
 		cell2.setCellValue(totalEntries);
 		cell1.setCellStyle(ExcelStyleReader.getSummarySheetNormalCellStyle());
 		cell2.setCellStyle(ExcelStyleReader.getSummarySheetNormalCellStyle());

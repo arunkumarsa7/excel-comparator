@@ -5,7 +5,7 @@ import java.io.File;
 import org.apache.commons.lang3.StringUtils;
 
 public class JarLocationLoader {
-	public static String jarFileLocation;
+	private static String jarFileLocation;
 
 	private JarLocationLoader() {
 
