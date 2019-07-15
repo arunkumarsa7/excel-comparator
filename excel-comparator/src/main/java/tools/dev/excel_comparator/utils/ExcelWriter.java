@@ -52,6 +52,7 @@ public class ExcelWriter {
 			final Map<String, Map<String, Map<String, String>>> newWorkbookData) throws IOException {
 		if (!newWorkbookData.isEmpty()) {
 			ExcelStyleReader.populateStyleReaderSheet();
+			SummarySheetWriter.createSummarySheet(workbook, newWorkbookData);
 			for (final Entry<String, Map<String, Map<String, String>>> entry : newWorkbookData.entrySet()) {
 				rowStartIndex = 1;
 				final String sheetName = entry.getKey();

@@ -3,11 +3,11 @@ package tools.dev.excel_comparator.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,7 +18,9 @@ public class ExcelReader {
 	static int firtKeyColumn = 0;
 	static int secondKeyColumn = 1;
 	static int valueColumn = 1;
-	static String skipSheetName = "Summary";
+	static String[] skipSheetNames = { "SUMMARY", "EXEMPTED_REFERENCES" };
+	static String[] replaceAllPatterns = { "\\s+" };
+	static String[] replacePatterns = { "\\s+", "\r\n", "\n", "//$NON-NLS-1$", "//$NON-NLS-2$" };
 
 	public static final DataFormatter formatter = new DataFormatter();
 
@@ -37,7 +39,7 @@ public class ExcelReader {
 		final Map<String, Map<String, Map<String, String>>> workbookMap = new LinkedHashMap<>();
 		for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
 			final Sheet sheet = workbook.getSheetAt(i);
-			if (!skipSheetName.equalsIgnoreCase(sheet.getSheetName())) {
+			if (!isSheetExempted(sheet.getSheetName())) {
 				workbookMap.put(sheet.getSheetName().toUpperCase(), covertSheetContentToMap(sheet));
 			}
 		}
@@ -48,7 +50,7 @@ public class ExcelReader {
 		final Map<String, Map<String, String>> sheetContentMap = new LinkedHashMap<>();
 		if (!isSheetEmpty(sheet)) {
 			final int rowCount = sheet.getLastRowNum() - sheet.getFirstRowNum();
-			for (int i = 0; i < rowCount + 1; i++) {
+			for (int i = 1; i < rowCount + 1; i++) {
 				final Row row = sheet.getRow(i);
 				sheetContentMap.put(getSheetContentToMapKey(row), getSheetContentToMapValue(row));
 			}
@@ -57,7 +59,8 @@ public class ExcelReader {
 	}
 
 	private static String getSheetContentToMapKey(final Row row) {
-		return formatCellValue(row.getCell(firtKeyColumn)) + formatCellValue(row.getCell(secondKeyColumn));
+		return formatCellValue(formatter.formatCellValue(row.getCell(firtKeyColumn))
+				+ formatter.formatCellValue(row.getCell(secondKeyColumn)));
 	}
 
 	private static Map<String, String> getSheetContentToMapValue(final Row row) {
@@ -67,8 +70,15 @@ public class ExcelReader {
 		return sheetContentMap;
 	}
 
-	private static String formatCellValue(final Cell columnValue) {
-		return formatter.formatCellValue(columnValue).replaceAll("\\s+", "").replace("\r\n", " ").replace("\n", " ");
+	private static String formatCellValue(final String columnValue) {
+		String formattedValue = columnValue;
+		for (final String replacePattern : Arrays.asList(replaceAllPatterns)) {
+			formattedValue = formattedValue.replaceAll(replacePattern, "");
+		}
+		for (final String replacePattern : Arrays.asList(replacePatterns)) {
+			formattedValue = formattedValue.replace(replacePattern, "");
+		}
+		return formattedValue;
 	}
 
 	private static boolean isSheetEmpty(final Sheet sheet) {
@@ -79,6 +89,15 @@ public class ExcelReader {
 		if (row == null) {
 			return true;
 		}
-		return StringUtils.isBlank(formatCellValue(row.getCell(0)));
+		return StringUtils.isBlank(formatter.formatCellValue(row.getCell(0)));
+	}
+
+	private static boolean isSheetExempted(final String sheetName) {
+		for (final String exemptedSheetName : Arrays.asList(skipSheetNames)) {
+			if (sheetName.equalsIgnoreCase(exemptedSheetName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
