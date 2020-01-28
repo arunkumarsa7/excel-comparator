@@ -17,8 +17,8 @@ public class ExcelReaderTest {
 	public static void main(final String[] args) {
 		setup();
 		try {
-			for (final Map.Entry<String, String> entry : ExcelReader
-					.covertSheetContentToMap(ExcelReader.readExcelFile(fileLocation, fileName), sheetNumber)
+			for (final Map.Entry<String, Map<String, String>> entry : ExcelReader
+					.covertSheetContentToMap(ExcelReader.readExcelFile(fileLocation, fileName).getSheetAt(sheetNumber))
 					.entrySet()) {
 				System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 			}
